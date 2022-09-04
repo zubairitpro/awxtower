@@ -1,0 +1,31 @@
+---
+- name: Create VLAN on a Switches
+  hosts: S5,S6,S7
+  gather_facts: false
+  vars:
+    vlan_id: 27
+    vlan_name: Zubair Ansible VLAN
+    interface: Ethernet0/1
+  tasks:
+  - name: Configure VLAN ID
+    ios_config:
+      lines:
+        - vlan {{ vlan_id }}
+
+  - name: Configure VLAN Name
+    ios_config:
+      lines:
+        - name {{ vlan_name }}
+      parents: vlan {{ vlan_id }}
+
+  - name: Making Interface {{ interface }} trunk and allowing VLAN {{ vlan_id }}
+    ios_l2_interface:
+      config:
+      - name: Ethernet0/1
+        mode: trunk
+        trunk:
+          allowed_vlans: 27
+          native_vlan: 27
+          pruning_vlans: 27
+          encapsulation: dot1q
+      state: merged

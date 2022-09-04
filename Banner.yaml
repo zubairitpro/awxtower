@@ -1,0 +1,28 @@
+---
+- name: Configure the login banner
+  hosts: iosxr
+  connection: network_cli
+  gather_facts: false
+  tasks:
+
+    - name: Add configure the login banner
+      ios_banner:
+
+        banner: exec
+        text: |
+          #######################################################
+          #                                                     #
+          #     This is My First Banner using Ansible Playbook  #
+          #     I am just getting started with ansible          #
+          #                                                     #
+          #     Thank you                                       #
+          #                                                     #
+          #     Zubair Malik                                    #
+          #     Network Administrator                           #
+          #     Cybernet                                        #
+          #                                                     #
+          #######################################################
+        state: present
+    - name: save running to start-config when modified
+      ios_config:
+        save_when: modified

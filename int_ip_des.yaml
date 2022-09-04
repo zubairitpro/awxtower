@@ -1,0 +1,68 @@
+---
+- name: Configuring R1
+  gather_facts: false
+  hosts: R1
+  tasks:
+  - name: Description
+    ios_interfaces:
+     config:
+      - name: Ethernet0/0
+        description: 'Connected_to_Uplink'
+        enabled: true
+      - name: Ethernet0/1
+        description: 'Lan_Interface'
+        enabled: true
+  - name: Set Ethernet0/1 IPv4 address
+    ios_l3_interface:
+     name: Ethernet0/1
+     ipv4: 192.168.127.1/24
+  - name: configure static route
+    ios_static_route:
+     prefix: 0.0.0.0
+     mask: 0.0.0.0
+     next_hop: 192.168.18.1
+- name: Configuring R2
+  gather_facts: false
+  hosts: R2
+  tasks:
+  - name: Description
+    ios_interfaces:
+     config:
+      - name: Ethernet0/0
+        description: 'Connected_to_Uplink'
+        enabled: true
+      - name: Ethernet0/1
+        description: 'LAN_Interface'
+        enabled: true
+  - name: Set Ethernet0/1 IPv4 address
+    ios_l3_interface:
+     name: Ethernet0/1
+     ipv4: 192.168.127.1/24
+  - name: configure static route
+    ios_static_route:
+     prefix: 0.0.0.0
+     mask: 0.0.0.0
+     next_hop: 192.168.18.1
+
+- name: Configuing  R3
+  gather_facts: false
+  hosts: R3
+  tasks:
+  - name: Description
+    ios_interfaces:
+     config:
+      - name: Ethernet0/0
+        description: 'Connected_to_Uplink'
+        enabled: true
+      - name: Ethernet0/1
+        description: 'LAN_Interface'
+        enabled: true
+  - name: Set Ethernet0/1 IPv4 address
+    ios_l3_interface:
+     name: Ethernet0/1
+     ipv4: 192.168.127.1/24
+  - name: configure static route
+    ios_static_route:
+     prefix: 0.0.0.0
+     mask: 0.0.0.0
+     next_hop: 192.168.18.1
